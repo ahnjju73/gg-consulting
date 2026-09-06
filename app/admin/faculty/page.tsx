@@ -98,6 +98,7 @@ export default async function FacultyPage() {
                 사진 교체 (선택)
               </label>
               <input type="file" name="avatar" accept="image/*" className={fileInput} />
+              <p className="mt-1 text-xs text-slate-400">최대 4MB까지 업로드 가능</p>
             </div>
             <div className="flex gap-2">
               <button
@@ -156,6 +157,7 @@ export default async function FacultyPage() {
         <div>
           <label className="block text-xs text-slate-500 mb-1">사진 (선택)</label>
           <input type="file" name="avatar" accept="image/*" className={fileInput} />
+          <p className="mt-1 text-xs text-slate-400">최대 4MB까지 업로드 가능</p>
         </div>
         <button
           type="submit"

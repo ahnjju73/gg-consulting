@@ -85,6 +85,10 @@ export default async function SettingsPage() {
               accept="image/*"
               className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-3 file:py-1.5 file:text-white file:text-sm"
             />
+            <p className="mt-1 text-xs text-slate-400">
+              최대 4MB까지 업로드 가능합니다. 그보다 크면 사진을 압축한 뒤
+              다시 올려주세요.
+            </p>
           </div>
         </div>
 

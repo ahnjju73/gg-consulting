@@ -83,6 +83,7 @@ export default async function PopupsPage() {
                 이미지 교체 (선택)
               </label>
               <input type="file" name="image" accept="image/*" className={fileInput} />
+              <p className="mt-1 text-xs text-slate-400">최대 4MB까지 업로드 가능</p>
             </div>
             <label className="flex items-center gap-2 text-sm text-slate-700">
               <input
@@ -151,6 +152,7 @@ export default async function PopupsPage() {
             required
             className={fileInput}
           />
+          <p className="mt-1 text-xs text-slate-400">최대 4MB까지 업로드 가능</p>
         </div>
         <label className="flex items-center gap-2 text-sm text-slate-700">
           <input
