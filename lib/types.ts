@@ -53,7 +53,7 @@ export type Track = {
 export type FacultyMember = {
   id: string;
   name: string;
-  role: string;
+  roles: string[];
   bio: string | null;
   avatar_url: string | null;
   sort_order: number;
