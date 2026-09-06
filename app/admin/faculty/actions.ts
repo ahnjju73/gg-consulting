@@ -11,6 +11,12 @@ function parseRoles(raw: FormDataEntryValue | null): string[] {
     .filter(Boolean);
 }
 
+function optionalText(raw: FormDataEntryValue | null): string | null {
+  if (typeof raw !== "string") return null;
+  const trimmed = raw.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 async function uploadAvatar(
   supabase: ReturnType<typeof createAdminClient>,
   file: File
@@ -31,6 +37,7 @@ export async function createFaculty(formData: FormData) {
   const payload: Record<string, unknown> = {
     name: formData.get("name"),
     roles: parseRoles(formData.get("roles")),
+    university: optionalText(formData.get("university")),
     bio: formData.get("bio"),
     sort_order: Number(formData.get("sort_order") ?? 0),
   };
@@ -53,6 +60,7 @@ export async function updateFaculty(formData: FormData) {
   const payload: Record<string, unknown> = {
     name: formData.get("name"),
     roles: parseRoles(formData.get("roles")),
+    university: optionalText(formData.get("university")),
     bio: formData.get("bio"),
     sort_order: Number(formData.get("sort_order") ?? 0),
   };

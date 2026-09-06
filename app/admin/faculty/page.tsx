@@ -74,6 +74,17 @@ export default async function FacultyPage() {
               />
             </div>
             <div>
+              <label className="block text-xs text-slate-500 mb-1">
+                대학 (선택 — 비워두면 카드에 표시되지 않음)
+              </label>
+              <input
+                className={input}
+                name="university"
+                placeholder="예: Harvard University"
+                defaultValue={f.university ?? ""}
+              />
+            </div>
+            <div>
               <label className="block text-xs text-slate-500 mb-1">소개</label>
               <textarea
                 className={input}
@@ -131,6 +142,12 @@ export default async function FacultyPage() {
             역할 (한 줄에 하나씩, 여러 개 가능)
           </label>
           <textarea className={input} name="roles" rows={2} required />
+        </div>
+        <div>
+          <label className="block text-xs text-slate-500 mb-1">
+            대학 (선택 — 비워두면 카드에 표시되지 않음)
+          </label>
+          <input className={input} name="university" placeholder="예: Harvard University" />
         </div>
         <div>
           <label className="block text-xs text-slate-500 mb-1">소개</label>

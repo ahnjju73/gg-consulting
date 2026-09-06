@@ -113,25 +113,50 @@ on conflict (slug) do nothing;
 
 -- ---------------------------------------------------------------------------
 -- faculty: instructor cards. avatar_url points into the `media` storage
--- bucket; leave null to fall back to a monogram in the UI.
+-- bucket; leave null to fall back to a monogram in the UI. `roles` is a JSON
+-- array of strings (one instructor can hold multiple roles/tags) — edited in
+-- the admin as one role per line, the same pattern as tracks.items.
 -- ---------------------------------------------------------------------------
 create table if not exists faculty (
   id uuid primary key default gen_random_uuid(),
   name text not null,
-  role text not null,
+  roles jsonb not null default '[]'::jsonb,
+  university text,
   bio text,
   avatar_url text,
   sort_order int not null default 0,
   created_at timestamptz not null default now()
 );
 
-insert into faculty (name, role, bio, sort_order)
+-- Migrate installs created before `roles` existed, which have a single
+-- `role text` column instead. Safe to run repeatedly and safe on fresh
+-- installs (the IF EXISTS check simply skips).
+alter table faculty add column if not exists roles jsonb not null default '[]'::jsonb;
+
+do $$
+begin
+  if exists (
+    select 1 from information_schema.columns
+    where table_name = 'faculty' and column_name = 'role'
+  ) then
+    update faculty
+      set roles = jsonb_build_array(role)
+      where jsonb_array_length(roles) = 0 and role is not null and role <> '';
+    alter table faculty drop column role;
+  end if;
+end $$;
+
+-- Migrate installs created before `university` existed. Optional field —
+-- left null it simply doesn't render on the card.
+alter table faculty add column if not exists university text;
+
+insert into faculty (name, roles, university, bio, sort_order)
 select * from (values
-  ('서지원 원장', '前 미국 사립대 입학사정관', '15년간 입학사정관·컨설턴트로 활동하며 Ivy League 합격생 다수 배출.', 1),
-  ('김민준 컨설턴트', '에세이 · 활동 설계', 'Common App 에세이 전문. 매년 60명 이상의 학생 원서를 지도.', 2),
-  ('이하나 강사', 'Digital SAT · Reading/Writing', 'SAT 만점 획득. College Board 공식 기준에 맞춘 커리큘럼 개발.', 3),
-  ('박도현 강사', 'AP · Math 심화', 'AP Calculus BC, Physics C 전문. 10년 이상 이과 계열 지도 경력.', 4)
-) as seed(name, role, bio, sort_order)
+  ('서지원 원장', '["前 미국 사립대 입학사정관", "입시 컨설팅 총괄"]'::jsonb, 'Harvard University', '15년간 입학사정관·컨설턴트로 활동하며 Ivy League 합격생 다수 배출.', 1),
+  ('김민준 컨설턴트', '["에세이 · 활동 설계"]'::jsonb, 'University of Pennsylvania', 'Common App 에세이 전문. 매년 60명 이상의 학생 원서를 지도.', 2),
+  ('이하나 강사', '["Digital SAT · Reading/Writing"]'::jsonb, null, 'SAT 만점 획득. College Board 공식 기준에 맞춘 커리큘럼 개발.', 3),
+  ('박도현 강사', '["AP · Math 심화", "내신 관리"]'::jsonb, 'Columbia University', 'AP Calculus BC, Physics C 전문. 10년 이상 이과 계열 지도 경력.', 4)
+) as seed(name, roles, university, bio, sort_order)
 where not exists (select 1 from faculty);
 
 -- ---------------------------------------------------------------------------

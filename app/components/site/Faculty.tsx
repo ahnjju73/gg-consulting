@@ -29,7 +29,12 @@ export default function Faculty({ faculty }: { faculty: FacultyMember[] }) {
               </div>
               <div className="fac-body">
                 <h4>{f.name}</h4>
-                <div className="role">{f.roles.join(" · ")}</div>
+                {f.roles.length > 0 && (
+                  <div className="role">{f.roles.join(" · ")}</div>
+                )}
+                {f.university ? (
+                  <div className="university">{f.university}</div>
+                ) : null}
                 {f.bio ? <p>{f.bio}</p> : null}
               </div>
             </div>

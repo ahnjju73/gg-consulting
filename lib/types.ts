@@ -54,6 +54,7 @@ export type FacultyMember = {
   id: string;
   name: string;
   roles: string[];
+  university: string | null;
   bio: string | null;
   avatar_url: string | null;
   sort_order: number;
