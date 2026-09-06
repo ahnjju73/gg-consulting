@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const links = [
   { href: "#mission", label: "소개" },
@@ -12,6 +13,18 @@ const links = [
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
+  // The drawer/backdrop are portaled to <body> (see below) because
+  // header.nav has `backdrop-filter`, which — like `transform` or `filter`
+  // — creates a new containing block for `position: fixed` descendants.
+  // Left nested inside the header, the drawer would size and position
+  // itself against the header's small box instead of the viewport.
+  const [mounted, setMounted] = useState(false);
+
+  // Standard SSR-safe "mounted" flag: document.body doesn't exist during
+  // the server render, so the portal target can only be resolved once
+  // we're running on the client.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!open) return;
@@ -55,28 +68,38 @@ export default function MobileMenu() {
         </svg>
       </button>
 
-      <div
-        className={`drawer-backdrop ${open ? "open" : ""}`}
-        onClick={() => setOpen(false)}
-        aria-hidden="true"
-      />
+      {mounted &&
+        createPortal(
+          <>
+            <div
+              className={`drawer-backdrop ${open ? "open" : ""}`}
+              onClick={() => setOpen(false)}
+              aria-hidden="true"
+            />
 
-      <aside
-        id="mobile-drawer"
-        className={`mobile-drawer ${open ? "open" : ""}`}
-        aria-hidden={!open}
-      >
-        <nav className="mobile-drawer-links">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <a className="btn-primary" href="#contact" onClick={() => setOpen(false)}>
-          상담 신청 →
-        </a>
-      </aside>
+            <aside
+              id="mobile-drawer"
+              className={`mobile-drawer ${open ? "open" : ""}`}
+              aria-hidden={!open}
+            >
+              <nav className="mobile-drawer-links">
+                {links.map((l) => (
+                  <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
+                    {l.label}
+                  </a>
+                ))}
+              </nav>
+              <a
+                className="btn-primary"
+                href="#contact"
+                onClick={() => setOpen(false)}
+              >
+                상담 신청 →
+              </a>
+            </aside>
+          </>,
+          document.body
+        )}
     </>
   );
 }

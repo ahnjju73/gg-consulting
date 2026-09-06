@@ -8,6 +8,7 @@ const sections = [
   { href: "/admin/tracks", label: "프로그램 트랙" },
   { href: "/admin/faculty", label: "강사진" },
   { href: "/admin/testimonials", label: "학부모 후기" },
+  { href: "/admin/popups", label: "팝업 공지" },
 ];
 
 export default function AdminLayout({

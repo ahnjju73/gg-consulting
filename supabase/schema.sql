@@ -160,6 +160,22 @@ select * from (values
 where not exists (select 1 from faculty);
 
 -- ---------------------------------------------------------------------------
+-- popups: announcement / exam-result images shown as an on-load popup on the
+-- public site. `active` toggles visibility without deleting history; several
+-- rows can be active at once and are shown one after another (queue), each
+-- dismissible by clicking the image or the buttons below it.
+-- ---------------------------------------------------------------------------
+create table if not exists popups (
+  id uuid primary key default gen_random_uuid(),
+  title text,
+  image_url text not null,
+  link_url text,
+  active boolean not null default true,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+-- ---------------------------------------------------------------------------
 -- testimonials
 -- ---------------------------------------------------------------------------
 create table if not exists testimonials (
@@ -190,6 +206,7 @@ alter table pillars enable row level security;
 alter table tracks enable row level security;
 alter table faculty enable row level security;
 alter table testimonials enable row level security;
+alter table popups enable row level security;
 
 drop policy if exists "public read site_settings" on site_settings;
 create policy "public read site_settings" on site_settings for select using (true);
@@ -208,6 +225,9 @@ create policy "public read faculty" on faculty for select using (true);
 
 drop policy if exists "public read testimonials" on testimonials;
 create policy "public read testimonials" on testimonials for select using (true);
+
+drop policy if exists "public read popups" on popups;
+create policy "public read popups" on popups for select using (true);
 
 -- ---------------------------------------------------------------------------
 -- Storage: a public "media" bucket for the logo + faculty photos uploaded

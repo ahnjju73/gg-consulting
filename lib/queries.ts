@@ -7,6 +7,7 @@ import type {
   Track,
   FacultyMember,
   Testimonial,
+  Popup,
 } from "./types";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -69,4 +70,15 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return (data ?? []) as Testimonial[];
+}
+
+export async function getActivePopups(): Promise<Popup[]> {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("popups")
+    .select("*")
+    .eq("active", true)
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as Popup[];
 }

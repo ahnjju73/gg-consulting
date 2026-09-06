@@ -31,6 +31,11 @@ const cards = [
     title: "학부모 후기",
     desc: "후기 인용문과 작성자 표기",
   },
+  {
+    href: "/admin/popups",
+    title: "팝업 공지",
+    desc: "공지·입학성과 이미지를 팝업으로 게시 (24시간 안 보기 지원)",
+  },
 ];
 
 export default function AdminDashboard() {

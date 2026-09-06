@@ -9,6 +9,7 @@ import StatsBand from "./components/site/StatsBand";
 import Testimonials from "./components/site/Testimonials";
 import Contact from "./components/site/Contact";
 import Footer from "./components/site/Footer";
+import Popups from "./components/site/Popups";
 import {
   getSiteSettings,
   getStats,
@@ -16,6 +17,7 @@ import {
   getTracks,
   getFaculty,
   getTestimonials,
+  getActivePopups,
 } from "@/lib/queries";
 
 // Content lives in Supabase and is edited from /admin, so this page must
@@ -31,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [settings, heroStats, resultStats, pillars, tracks, faculty, testimonials] =
+  const [settings, heroStats, resultStats, pillars, tracks, faculty, testimonials, popups] =
     await Promise.all([
       getSiteSettings(),
       getStats("hero"),
@@ -40,10 +42,12 @@ export default async function HomePage() {
       getTracks(),
       getFaculty(),
       getTestimonials(),
+      getActivePopups(),
     ]);
 
   return (
     <>
+      <Popups popups={popups} />
       <Nav
         logoMain={settings.logo_text_main}
         logoAccent={settings.logo_text_accent}

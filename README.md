@@ -10,9 +10,9 @@
    있다면 이 단계는 건너뛰세요).
 2. Supabase 대시보드 → **SQL Editor**로 이동해 `supabase/schema.sql`의
    내용을 전체 복사해 붙여넣고 실행합니다.
-   - 테이블 6개(`site_settings`, `stats`, `pillars`, `tracks`, `faculty`,
-     `testimonials`)와 샘플 데이터, RLS 정책, `media` Storage 버킷이
-     한 번에 생성됩니다.
+   - 테이블 7개(`site_settings`, `stats`, `pillars`, `tracks`, `faculty`,
+     `testimonials`, `popups`)와 샘플 데이터, RLS 정책, `media` Storage
+     버킷이 한 번에 생성됩니다.
    - 이 스크립트는 여러 번 실행해도 안전합니다 (이미 있는 데이터는
      건너뜁니다).
 3. Supabase 대시보드 → **Project Settings → API**에서 다음 세 값을
@@ -47,6 +47,7 @@ npm run dev
 | 프로그램 트랙 | 입시 컨설팅 / 시험 준비 트랙과 각 트랙의 불릿 항목 |
 | 강사진 | 이름/역할(여러 개 가능)/소개/사진 (사진 없으면 이니셜 아바타) |
 | 학부모 후기 | 여러 개 등록 가능, 순서대로 표시 |
+| 팝업 공지 | 공지·입학성과 이미지를 방문 시 팝업으로 표시. 클릭/닫기로 즉시 닫힘, "24시간 동안 보지 않기"는 방문자 브라우저에 24시간 저장됨. 여러 개 활성화하면 순서대로 하나씩 표시. 모바일은 화면 너비에 맞춰, PC는 최대 420px 고정폭으로 표시 |
 
 저장하면 홈페이지에 바로 반영됩니다 (별도 배포/빌드 없이).
 
