@@ -46,7 +46,7 @@ export default async function FacultyPage() {
                   className="w-14 h-14 rounded-full object-cover shrink-0"
                 />
               )}
-              <div className="grid gap-3 sm:grid-cols-3 flex-1">
+              <div className="grid gap-3 sm:grid-cols-2 flex-1">
                 <div>
                   <label className="block text-xs text-slate-500 mb-1">순서</label>
                   <input
@@ -60,11 +60,18 @@ export default async function FacultyPage() {
                   <label className="block text-xs text-slate-500 mb-1">이름</label>
                   <input className={input} name="name" defaultValue={f.name} />
                 </div>
-                <div>
-                  <label className="block text-xs text-slate-500 mb-1">역할</label>
-                  <input className={input} name="role" defaultValue={f.role} />
-                </div>
               </div>
+            </div>
+            <div>
+              <label className="block text-xs text-slate-500 mb-1">
+                역할 (한 줄에 하나씩, 여러 개 가능)
+              </label>
+              <textarea
+                className={input}
+                name="roles"
+                rows={2}
+                defaultValue={f.roles.join("\n")}
+              />
             </div>
             <div>
               <label className="block text-xs text-slate-500 mb-1">소개</label>
@@ -104,7 +111,7 @@ export default async function FacultyPage() {
         className="mt-6 rounded-lg border border-dashed border-slate-300 p-4 space-y-3"
       >
         <div className="text-sm font-semibold text-slate-900">강사 추가</div>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <label className="block text-xs text-slate-500 mb-1">순서</label>
             <input
@@ -118,10 +125,12 @@ export default async function FacultyPage() {
             <label className="block text-xs text-slate-500 mb-1">이름</label>
             <input className={input} name="name" required />
           </div>
-          <div>
-            <label className="block text-xs text-slate-500 mb-1">역할</label>
-            <input className={input} name="role" required />
-          </div>
+        </div>
+        <div>
+          <label className="block text-xs text-slate-500 mb-1">
+            역할 (한 줄에 하나씩, 여러 개 가능)
+          </label>
+          <textarea className={input} name="roles" rows={2} required />
         </div>
         <div>
           <label className="block text-xs text-slate-500 mb-1">소개</label>

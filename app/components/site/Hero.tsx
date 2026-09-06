@@ -14,7 +14,10 @@ export default function Hero({
         <div className="hero-grid">
           <div>
             <div className="eyebrow">
-              {settings.academy_name} · Since {settings.since_year}
+              <span>
+                {settings.academy_name}
+                <span className="since-tag"> · Since {settings.since_year}</span>
+              </span>
             </div>
             <h1>
               {settings.hero_title_line1}

@@ -1,3 +1,5 @@
+import MobileMenu from "./MobileMenu";
+
 export default function Nav({
   logoMain,
   logoAccent,
@@ -26,9 +28,12 @@ export default function Nav({
           <a href="#results">입학성과</a>
           <a href="#contact">상담문의</a>
         </nav>
-        <a className="cta-pill" href="#contact">
-          상담 신청
-        </a>
+        <div className="nav-actions">
+          <a className="cta-pill" href="#contact">
+            상담 신청
+          </a>
+          <MobileMenu />
+        </div>
       </div>
     </header>
   );

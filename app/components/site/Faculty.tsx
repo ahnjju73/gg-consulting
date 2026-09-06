@@ -27,9 +27,11 @@ export default function Faculty({ faculty }: { faculty: FacultyMember[] }) {
                   initials(f.name)
                 )}
               </div>
-              <h4>{f.name}</h4>
-              <div className="role">{f.role}</div>
-              {f.bio ? <p>{f.bio}</p> : null}
+              <div className="fac-body">
+                <h4>{f.name}</h4>
+                <div className="role">{f.roles.join(" · ")}</div>
+                {f.bio ? <p>{f.bio}</p> : null}
+              </div>
             </div>
           ))}
         </Reveal>

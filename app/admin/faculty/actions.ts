@@ -3,6 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+function parseRoles(raw: FormDataEntryValue | null): string[] {
+  if (typeof raw !== "string") return [];
+  return raw
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
 async function uploadAvatar(
   supabase: ReturnType<typeof createAdminClient>,
   file: File
@@ -22,7 +30,7 @@ export async function createFaculty(formData: FormData) {
 
   const payload: Record<string, unknown> = {
     name: formData.get("name"),
-    role: formData.get("role"),
+    roles: parseRoles(formData.get("roles")),
     bio: formData.get("bio"),
     sort_order: Number(formData.get("sort_order") ?? 0),
   };
@@ -44,7 +52,7 @@ export async function updateFaculty(formData: FormData) {
 
   const payload: Record<string, unknown> = {
     name: formData.get("name"),
-    role: formData.get("role"),
+    roles: parseRoles(formData.get("roles")),
     bio: formData.get("bio"),
     sort_order: Number(formData.get("sort_order") ?? 0),
   };

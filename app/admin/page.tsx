@@ -24,7 +24,7 @@ const cards = [
   {
     href: "/admin/faculty",
     title: "강사진",
-    desc: "이름, 역할, 소개, 사진 (사진 없으면 이니셜 아바타)",
+    desc: "이름, 역할(여러 개 가능), 소개, 사진 (사진 없으면 이니셜 아바타)",
   },
   {
     href: "/admin/testimonials",
