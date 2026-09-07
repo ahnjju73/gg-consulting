@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { deleteMediaFile } from "@/lib/supabase/storage";
 
 function str(formData: FormData, key: string) {
   const v = formData.get(key);
@@ -31,8 +32,10 @@ export async function updateSettings(formData: FormData) {
     updated_at: new Date().toISOString(),
   };
 
+  const previousLogoUrl = formData.get("current_logo_url") as string | null;
   const logoFile = formData.get("logo");
-  if (logoFile instanceof File && logoFile.size > 0) {
+  const replacingLogo = logoFile instanceof File && logoFile.size > 0;
+  if (replacingLogo) {
     const ext = logoFile.name.split(".").pop() || "png";
     const path = `logo-${Date.now()}.${ext}`;
     const { error: uploadError } = await supabase.storage
@@ -50,6 +53,12 @@ export async function updateSettings(formData: FormData) {
     .update(payload)
     .eq("id", 1);
   if (error) throw new Error(error.message);
+
+  // Only after the row is safely updated do we remove the old logo, so a
+  // failed update never leaves the site pointing at a deleted file.
+  if (replacingLogo) {
+    await deleteMediaFile(supabase, previousLogoUrl);
+  }
 
   revalidatePath("/");
   revalidatePath("/admin/settings");

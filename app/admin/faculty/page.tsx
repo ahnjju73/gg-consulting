@@ -37,6 +37,11 @@ export default async function FacultyPage() {
             className="rounded-lg border border-slate-200 bg-white p-4 space-y-3"
           >
             <input type="hidden" name="id" value={f.id} />
+            <input
+              type="hidden"
+              name="current_avatar_url"
+              value={f.avatar_url ?? ""}
+            />
             <div className="flex gap-4 items-start">
               {f.avatar_url && (
                 // eslint-disable-next-line @next/next/no-img-element

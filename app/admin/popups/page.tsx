@@ -42,6 +42,11 @@ export default async function PopupsPage() {
             className="rounded-lg border border-slate-200 bg-white p-4 space-y-3"
           >
             <input type="hidden" name="id" value={p.id} />
+            <input
+              type="hidden"
+              name="current_image_url"
+              value={p.image_url ?? ""}
+            />
             <div className="flex gap-4 items-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { deleteMediaFile } from "@/lib/supabase/storage";
 
 function optionalText(raw: FormDataEntryValue | null): string | null {
   if (typeof raw !== "string") return null;
@@ -48,6 +49,7 @@ export async function createPopup(formData: FormData) {
 export async function updatePopup(formData: FormData) {
   const supabase = createAdminClient();
   const id = formData.get("id") as string;
+  const previousImageUrl = formData.get("current_image_url") as string | null;
 
   const payload: Record<string, unknown> = {
     title: optionalText(formData.get("title")),
@@ -57,12 +59,20 @@ export async function updatePopup(formData: FormData) {
   };
 
   const image = formData.get("image");
-  if (image instanceof File && image.size > 0) {
-    payload.image_url = await uploadImage(supabase, image);
+  const replacingImage = image instanceof File && image.size > 0;
+  if (replacingImage) {
+    payload.image_url = await uploadImage(supabase, image as File);
   }
 
   const { error } = await supabase.from("popups").update(payload).eq("id", id);
   if (error) throw new Error(error.message);
+
+  // Only after the row is safely updated do we remove the old image, so a
+  // failed update never leaves a record pointing at a deleted file.
+  if (replacingImage) {
+    await deleteMediaFile(supabase, previousImageUrl);
+  }
+
   revalidatePath("/");
   revalidatePath("/admin/popups");
 }
@@ -70,8 +80,13 @@ export async function updatePopup(formData: FormData) {
 export async function deletePopup(formData: FormData) {
   const supabase = createAdminClient();
   const id = formData.get("id") as string;
+  const imageUrl = formData.get("current_image_url") as string | null;
+
   const { error } = await supabase.from("popups").delete().eq("id", id);
   if (error) throw new Error(error.message);
+
+  await deleteMediaFile(supabase, imageUrl);
+
   revalidatePath("/");
   revalidatePath("/admin/popups");
 }

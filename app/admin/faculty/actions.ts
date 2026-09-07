@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { deleteMediaFile } from "@/lib/supabase/storage";
 
 function parseRoles(raw: FormDataEntryValue | null): string[] {
   if (typeof raw !== "string") return [];
@@ -56,6 +57,7 @@ export async function createFaculty(formData: FormData) {
 export async function updateFaculty(formData: FormData) {
   const supabase = createAdminClient();
   const id = formData.get("id") as string;
+  const previousAvatarUrl = formData.get("current_avatar_url") as string | null;
 
   const payload: Record<string, unknown> = {
     name: formData.get("name"),
@@ -66,12 +68,20 @@ export async function updateFaculty(formData: FormData) {
   };
 
   const avatar = formData.get("avatar");
-  if (avatar instanceof File && avatar.size > 0) {
-    payload.avatar_url = await uploadAvatar(supabase, avatar);
+  const replacingAvatar = avatar instanceof File && avatar.size > 0;
+  if (replacingAvatar) {
+    payload.avatar_url = await uploadAvatar(supabase, avatar as File);
   }
 
   const { error } = await supabase.from("faculty").update(payload).eq("id", id);
   if (error) throw new Error(error.message);
+
+  // Only after the row is safely updated do we remove the old photo, so a
+  // failed update never leaves a record pointing at a deleted file.
+  if (replacingAvatar) {
+    await deleteMediaFile(supabase, previousAvatarUrl);
+  }
+
   revalidatePath("/");
   revalidatePath("/admin/faculty");
 }
@@ -79,8 +89,13 @@ export async function updateFaculty(formData: FormData) {
 export async function deleteFaculty(formData: FormData) {
   const supabase = createAdminClient();
   const id = formData.get("id") as string;
+  const avatarUrl = formData.get("current_avatar_url") as string | null;
+
   const { error } = await supabase.from("faculty").delete().eq("id", id);
   if (error) throw new Error(error.message);
+
+  await deleteMediaFile(supabase, avatarUrl);
+
   revalidatePath("/");
   revalidatePath("/admin/faculty");
 }

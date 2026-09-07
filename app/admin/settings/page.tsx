@@ -32,6 +32,7 @@ export default async function SettingsPage() {
       </p>
 
       <form action={updateSettings} className="mt-8 space-y-6">
+        <input type="hidden" name="current_logo_url" value={s.logo_url ?? ""} />
         <div className={fieldset}>
           <div className={legend}>로고 &amp; 학원명</div>
           <div className="grid gap-4 sm:grid-cols-2">
