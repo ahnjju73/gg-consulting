@@ -17,6 +17,8 @@ export type SiteSettings = {
   academy_license_no: string | null;
   representative_name: string | null;
   logo_url: string | null;
+  show_results_stats: boolean;
+  show_testimonials: boolean;
   updated_at: string;
 };
 

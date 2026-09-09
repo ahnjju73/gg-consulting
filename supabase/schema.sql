@@ -27,8 +27,19 @@ create table if not exists site_settings (
   academy_license_no text default '제0000호 (샘플)',
   representative_name text default '서지원',
   logo_url text,
+  -- Sections built on placeholder data (fake acceptance-rate numbers, a
+  -- sample testimonial) default to HIDDEN so a real visitor never sees
+  -- fabricated trust signals. Flip these on in the admin once real numbers/
+  -- reviews are in. `add column ... default false` backfills existing rows
+  -- too, so re-running this script on an already-deployed site hides them
+  -- immediately without any other action.
+  show_results_stats boolean not null default false,
+  show_testimonials boolean not null default false,
   updated_at timestamptz not null default now()
 );
+
+alter table site_settings add column if not exists show_results_stats boolean not null default false;
+alter table site_settings add column if not exists show_testimonials boolean not null default false;
 
 insert into site_settings (id) values (1) on conflict (id) do nothing;
 

@@ -25,9 +25,14 @@ export default function Contact({ settings }: { settings: SiteSettings }) {
               방문 상담은 사전 예약제로 운영됩니다.
             </p>
             {telHref && (
-              <a className="btn-primary" href={telHref}>
-                전화 상담 신청 →
-              </a>
+              <div className="contact-cta-row">
+                <a className="btn-primary" href={telHref}>
+                  전화 상담 신청 →
+                </a>
+                <a className="phone-link" href={telHref}>
+                  ☎ {settings.phone}
+                </a>
+              </div>
             )}
           </div>
           <div className="contact-right">

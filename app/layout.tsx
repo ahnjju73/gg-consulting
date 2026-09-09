@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+// Needed so relative image paths in openGraph/twitter metadata (e.g. the
+// default share-preview image) resolve to a full URL for outside crawlers
+// (KakaoTalk, etc). NEXT_PUBLIC_SITE_URL is optional — Vercel already sets
+// VERCEL_URL to the deployment's own domain, so this works out of the box;
+// set NEXT_PUBLIC_SITE_URL once a custom domain is attached.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "GoldenGate Consulting",
   description:
     "미국 대학 입시 컨설팅 및 SAT/AP 시험 준비 - GoldenGate Consulting",

@@ -8,8 +8,19 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
       <div className="wrap foot-row">
         <div>
           <div className="logo">
-            {settings.logo_text_main}
-            <span>{settings.logo_text_accent}</span>
+            {settings.logo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={settings.logo_url}
+                alt={settings.academy_name}
+                className="logo-mark-full"
+              />
+            ) : (
+              <>
+                {settings.logo_text_main}
+                <span>{settings.logo_text_accent}</span>
+              </>
+            )}
           </div>
           <div className="foot-legal">
             상호 {settings.academy_name} · 대표 {settings.representative_name}

@@ -88,8 +88,20 @@ export default async function SettingsPage() {
             />
             <p className="mt-1 text-xs text-slate-400">
               최대 4MB까지 업로드 가능합니다. 그보다 크면 사진을 압축한 뒤
-              다시 올려주세요.
+              다시 올려주세요. 로고 이미지를 올리면 위의 로고 텍스트 대신
+              이 이미지가 표시됩니다(헤더·푸터·카카오톡 등 공유 미리보기
+              전부).
             </p>
+            {s.logo_url && (
+              <label className="mt-2 flex items-center gap-2 text-xs text-slate-600">
+                <input
+                  type="checkbox"
+                  name="remove_logo"
+                  className="rounded border-slate-300"
+                />
+                로고 이미지 삭제하고 텍스트 로고로 되돌리기
+              </label>
+            )}
           </div>
         </div>
 
@@ -211,6 +223,33 @@ export default async function SettingsPage() {
               />
             </div>
           </div>
+        </div>
+
+        <div className={fieldset}>
+          <div className={legend}>섹션 노출 설정</div>
+          <p className="text-xs text-slate-500">
+            아직 실제 데이터가 아닌 샘플(placeholder) 콘텐츠라 기본적으로
+            숨겨져 있습니다. 실제 합격 실적/후기로 교체한 뒤 체크해서
+            공개하세요.
+          </p>
+          <label className="flex items-center gap-2 text-sm text-slate-700">
+            <input
+              type="checkbox"
+              name="show_results_stats"
+              defaultChecked={s.show_results_stats}
+              className="rounded border-slate-300"
+            />
+            입학성과(합격률) 섹션 홈페이지에 표시
+          </label>
+          <label className="flex items-center gap-2 text-sm text-slate-700">
+            <input
+              type="checkbox"
+              name="show_testimonials"
+              defaultChecked={s.show_testimonials}
+              className="rounded border-slate-300"
+            />
+            학부모 후기 섹션 홈페이지에 표시
+          </label>
         </div>
 
         <button

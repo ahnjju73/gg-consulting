@@ -29,12 +29,18 @@ export async function updateSettings(formData: FormData) {
     business_reg_no: str(formData, "business_reg_no"),
     academy_license_no: str(formData, "academy_license_no"),
     representative_name: str(formData, "representative_name"),
+    show_results_stats: formData.get("show_results_stats") === "on",
+    show_testimonials: formData.get("show_testimonials") === "on",
     updated_at: new Date().toISOString(),
   };
 
   const previousLogoUrl = formData.get("current_logo_url") as string | null;
   const logoFile = formData.get("logo");
   const replacingLogo = logoFile instanceof File && logoFile.size > 0;
+  // "remove" only applies when no new file was chosen at the same time —
+  // uploading a replacement always wins.
+  const removingLogo = formData.get("remove_logo") === "on" && !replacingLogo;
+
   if (replacingLogo) {
     const ext = logoFile.name.split(".").pop() || "png";
     const path = `logo-${Date.now()}.${ext}`;
@@ -46,6 +52,8 @@ export async function updateSettings(formData: FormData) {
     }
     const { data: pub } = supabase.storage.from("media").getPublicUrl(path);
     payload.logo_url = pub.publicUrl;
+  } else if (removingLogo) {
+    payload.logo_url = null;
   }
 
   const { error } = await supabase
@@ -54,9 +62,9 @@ export async function updateSettings(formData: FormData) {
     .eq("id", 1);
   if (error) throw new Error(error.message);
 
-  // Only after the row is safely updated do we remove the old logo, so a
-  // failed update never leaves the site pointing at a deleted file.
-  if (replacingLogo) {
+  // Only after the row is safely updated do we remove the old logo file, so
+  // a failed update never leaves the site pointing at a deleted file.
+  if (replacingLogo || removingLogo) {
     await deleteMediaFile(supabase, previousLogoUrl);
   }
 

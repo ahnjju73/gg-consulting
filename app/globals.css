@@ -150,10 +150,10 @@ header.nav {
   font-weight: 600;
   letter-spacing: 0.01em;
 }
-.logo img.logo-mark {
-  height: 1.6rem;
+.logo img.logo-mark-full {
+  height: 1.9rem;
   width: auto;
-  margin-right: 0.2rem;
+  display: block;
 }
 .logo span {
   color: var(--gold);
@@ -795,8 +795,26 @@ section {
   font-size: 0.85rem;
   color: var(--text-faint);
 }
-.contact-left .btn-primary {
+.contact-cta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.1rem;
   margin-top: 2rem;
+}
+.phone-link {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px dashed color-mix(in srgb, var(--gold) 55%, transparent);
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+.phone-link:hover {
+  color: var(--gold-strong);
+  border-bottom-color: var(--gold-strong);
 }
 
 /* ---------- FOOTER ---------- */
@@ -816,6 +834,9 @@ footer {
 .foot-row .logo {
   font-size: 1rem;
   margin-bottom: 0.6rem;
+}
+.foot-row .logo img.logo-mark-full {
+  height: 1.4rem;
 }
 .foot-links {
   display: flex;
@@ -879,8 +900,11 @@ footer {
   .logo small {
     display: none;
   }
-  .logo img.logo-mark {
-    height: 1.3rem;
+  .logo img.logo-mark-full {
+    height: 1.5rem;
+  }
+  .foot-row .logo img.logo-mark-full {
+    height: 1.2rem;
   }
   .cta-pill {
     padding: 0.55rem 1rem;

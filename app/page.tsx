@@ -26,9 +26,29 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
+  // KakaoTalk/social share previews want an explicit og:image — without one,
+  // some crawlers fall back to scanning the page for the first sizeable
+  // <img> (a faculty photo), which is not the brand. Prefer the uploaded
+  // logo; fall back to a bundled brand card so there's always something
+  // correct even before a logo is uploaded.
+  const ogImage = settings.logo_url || "/og-default.png";
+
   return {
     title: settings.academy_name,
     description: settings.hero_description,
+    openGraph: {
+      title: settings.academy_name,
+      description: settings.hero_description,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+      type: "website",
+      locale: "ko_KR",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings.academy_name,
+      description: settings.hero_description,
+      images: [ogImage],
+    },
   };
 }
 
@@ -52,14 +72,15 @@ export default async function HomePage() {
         logoMain={settings.logo_text_main}
         logoAccent={settings.logo_text_accent}
         logoUrl={settings.logo_url}
+        showResults={settings.show_results_stats}
       />
       <Hero settings={settings} stats={heroStats} />
       <Mission settings={settings} />
       <Pillars pillars={pillars} />
       <Tracks tracks={tracks} />
       <Faculty faculty={faculty} />
-      <StatsBand stats={resultStats} />
-      <Testimonials testimonials={testimonials} />
+      {settings.show_results_stats && <StatsBand stats={resultStats} />}
+      {settings.show_testimonials && <Testimonials testimonials={testimonials} />}
       <Contact settings={settings} />
       <Footer settings={settings} />
     </>

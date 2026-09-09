@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-const links = [
+const baseLinks = [
   { href: "#mission", label: "소개" },
   { href: "#programs", label: "프로그램" },
   { href: "#faculty", label: "강사진" },
@@ -11,8 +11,15 @@ const links = [
   { href: "#contact", label: "상담문의" },
 ];
 
-export default function MobileMenu() {
+export default function MobileMenu({
+  showResults = true,
+}: {
+  showResults?: boolean;
+}) {
   const [open, setOpen] = useState(false);
+  const links = showResults
+    ? baseLinks
+    : baseLinks.filter((l) => l.href !== "#results");
   // The drawer/backdrop are portaled to <body> (see below) because
   // header.nav has `backdrop-filter`, which — like `transform` or `filter`
   // — creates a new containing block for `position: fixed` descendants.
