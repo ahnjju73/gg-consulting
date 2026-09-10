@@ -599,13 +599,17 @@ section {
   }
 }
 .avatar {
-  width: 64px;
-  height: 64px;
+  /* Desktop: a large, near-card-width photo (mobile keeps its own compact
+     size below, in the 900px media query). */
+  width: 88%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  align-self: center;
   border-radius: 50%;
   background: linear-gradient(155deg, var(--gold), var(--gold-strong));
   color: #241705;
   font-family: "Fraunces", serif;
-  font-size: 1.25rem;
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -907,7 +911,10 @@ footer {
   }
   .fac-card .avatar {
     width: 84px;
+    max-width: none;
+    aspect-ratio: auto;
     height: 84px;
+    align-self: flex-start;
     font-size: 1.7rem;
   }
   .fac-body {
