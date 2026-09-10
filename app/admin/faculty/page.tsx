@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { FacultyMember } from "@/lib/types";
 import { createFaculty, updateFaculty, deleteFaculty } from "./actions";
+import AvatarCropper from "./AvatarCropper";
 
 export const dynamic = "force-dynamic";
 
@@ -16,8 +17,6 @@ async function getFaculty(): Promise<FacultyMember[]> {
 
 const input =
   "w-full rounded-md border border-slate-300 px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500";
-const fileInput =
-  "block w-full text-xs text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-3 file:py-1.5 file:text-white file:text-xs";
 
 export default async function FacultyPage() {
   const faculty = await getFaculty();
@@ -42,29 +41,19 @@ export default async function FacultyPage() {
               name="current_avatar_url"
               value={f.avatar_url ?? ""}
             />
-            <div className="flex gap-4 items-start">
-              {f.avatar_url && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={f.avatar_url}
-                  alt={f.name}
-                  className="w-14 h-14 rounded-full object-cover shrink-0"
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label className="block text-xs text-slate-500 mb-1">순서</label>
+                <input
+                  className={input}
+                  type="number"
+                  name="sort_order"
+                  defaultValue={f.sort_order}
                 />
-              )}
-              <div className="grid gap-3 sm:grid-cols-2 flex-1">
-                <div>
-                  <label className="block text-xs text-slate-500 mb-1">순서</label>
-                  <input
-                    className={input}
-                    type="number"
-                    name="sort_order"
-                    defaultValue={f.sort_order}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-500 mb-1">이름</label>
-                  <input className={input} name="name" defaultValue={f.name} />
-                </div>
+              </div>
+              <div>
+                <label className="block text-xs text-slate-500 mb-1">이름</label>
+                <input className={input} name="name" defaultValue={f.name} />
               </div>
             </div>
             <div>
@@ -100,10 +89,9 @@ export default async function FacultyPage() {
             </div>
             <div>
               <label className="block text-xs text-slate-500 mb-1">
-                사진 교체 (선택)
+                사진 (선택 — 올리면 위치/확대 조정 가능)
               </label>
-              <input type="file" name="avatar" accept="image/*" className={fileInput} />
-              <p className="mt-1 text-xs text-slate-400">최대 4MB까지 업로드 가능</p>
+              <AvatarCropper name="avatar" initialUrl={f.avatar_url} />
             </div>
             <div className="flex gap-2">
               <button
@@ -160,9 +148,10 @@ export default async function FacultyPage() {
           <textarea className={input} name="bio" rows={2} />
         </div>
         <div>
-          <label className="block text-xs text-slate-500 mb-1">사진 (선택)</label>
-          <input type="file" name="avatar" accept="image/*" className={fileInput} />
-          <p className="mt-1 text-xs text-slate-400">최대 4MB까지 업로드 가능</p>
+          <label className="block text-xs text-slate-500 mb-1">
+            사진 (선택 — 올리면 위치/확대 조정 가능)
+          </label>
+          <AvatarCropper name="avatar" initialUrl={null} />
         </div>
         <button
           type="submit"

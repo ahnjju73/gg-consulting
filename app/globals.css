@@ -1,44 +1,11 @@
 @import "tailwindcss";
 
+/* This site is dark-themed only, on purpose — it no longer follows the
+   visitor's OS light/dark preference. That way the (currently white/light)
+   logo file always reads correctly against a background that never
+   switches to a light color underneath it. If a light theme is ever wanted
+   again, reintroduce the `prefers-color-scheme` swap this replaced. */
 :root {
-  --ink: #141d2e;
-  --ink-soft: #2b3a52;
-  --paper: #f2f4f8;
-  --surface: #ffffff;
-  --gold: #a8763a;
-  --gold-strong: #8f5f28;
-  --bay: #3c6b82;
-  --bridge: #a83c2e;
-  --line: #d6dbe3;
-  --text: #1a2333;
-  --text-soft: #4d5b70;
-  --text-faint: #7c879a;
-  --shadow: 0 24px 60px -32px rgba(20, 29, 46, 0.35);
-  --cta-bg: var(--ink);
-  --cta-text: var(--paper);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ink: #0d131f;
-    --ink-soft: #1a2436;
-    --paper: #0f1522;
-    --surface: #161f30;
-    --gold: #d3a25f;
-    --gold-strong: #e3b878;
-    --bay: #7fadc4;
-    --bridge: #d4695a;
-    --line: #2a3448;
-    --text: #e9ecf2;
-    --text-soft: #aab4c4;
-    --text-faint: #7c879a;
-    --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.6);
-    --cta-bg: var(--gold);
-    --cta-text: #1a1207;
-  }
-}
-
-:root[data-theme="dark"] {
   --ink: #0d131f;
   --ink-soft: #1a2436;
   --paper: #0f1522;
@@ -54,6 +21,7 @@
   --shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.6);
   --cta-bg: var(--gold);
   --cta-text: #1a1207;
+  color-scheme: dark;
 }
 
 * {
@@ -151,7 +119,7 @@ header.nav {
   letter-spacing: 0.01em;
 }
 .logo img.logo-mark-full {
-  height: 1.9rem;
+  height: 2.6rem;
   width: auto;
   display: block;
 }
@@ -697,9 +665,6 @@ section {
   color: var(--gold);
   font-variant-numeric: tabular-nums;
 }
-:root[data-theme="light"] .stats-band .stat b {
-  color: var(--gold-strong);
-}
 .stat span {
   font-size: 0.82rem;
   color: #c3cbd8;
@@ -836,7 +801,7 @@ footer {
   margin-bottom: 0.6rem;
 }
 .foot-row .logo img.logo-mark-full {
-  height: 1.4rem;
+  height: 2rem;
 }
 .foot-links {
   display: flex;
@@ -901,10 +866,10 @@ footer {
     display: none;
   }
   .logo img.logo-mark-full {
-    height: 1.5rem;
+    height: 2.1rem;
   }
   .foot-row .logo img.logo-mark-full {
-    height: 1.2rem;
+    height: 1.6rem;
   }
   .cta-pill {
     padding: 0.55rem 1rem;

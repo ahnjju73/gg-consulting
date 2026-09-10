@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 // Needed so relative image paths in openGraph/twitter metadata (e.g. the
@@ -15,6 +15,14 @@ export const metadata: Metadata = {
   title: "GoldenGate Consulting",
   description:
     "미국 대학 입시 컨설팅 및 SAT/AP 시험 준비 - GoldenGate Consulting",
+};
+
+// The site is dark-themed only (see globals.css) — this tells the browser
+// chrome (address bar color, native form controls, scrollbars) to match
+// instead of following the visitor's OS light/dark setting.
+export const viewport: Viewport = {
+  themeColor: "#0d131f",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
