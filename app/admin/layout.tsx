@@ -9,6 +9,7 @@ const sections = [
   { href: "/admin/faculty", label: "강사진" },
   { href: "/admin/testimonials", label: "학부모 후기" },
   { href: "/admin/popups", label: "팝업 공지" },
+  { href: "/admin/campus-photos", label: "캠퍼스 사진" },
 ];
 
 export default function AdminLayout({

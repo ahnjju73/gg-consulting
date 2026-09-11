@@ -36,6 +36,11 @@ const cards = [
     title: "팝업 공지",
     desc: "공지·입학성과 이미지를 팝업으로 게시 (24시간 안 보기 지원)",
   },
+  {
+    href: "/admin/campus-photos",
+    title: "캠퍼스 사진",
+    desc: "히어로/프로그램/강사진 섹션 다음에 들어가는 대학 캠퍼스 큰 사진 3곳 (사진·문구·표시 여부)",
+  },
 ];
 
 export default function AdminDashboard() {

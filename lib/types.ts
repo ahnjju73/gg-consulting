@@ -78,3 +78,18 @@ export type Popup = {
   sort_order: number;
   created_at: string;
 };
+
+// Three fixed slots (see supabase/schema.sql) — big full-bleed photo bands
+// shown between sections on the home page. `position` is the primary key
+// and only ever one of these three values; there is no free-form list.
+export type CampusPhotoPosition = "after_hero" | "after_programs" | "after_faculty";
+
+export type CampusPhoto = {
+  position: CampusPhotoPosition;
+  university: string;
+  location: string | null;
+  caption: string | null;
+  image_url: string | null;
+  active: boolean;
+  updated_at: string;
+};

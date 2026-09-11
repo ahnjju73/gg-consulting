@@ -10,6 +10,7 @@ import Testimonials from "./components/site/Testimonials";
 import Contact from "./components/site/Contact";
 import Footer from "./components/site/Footer";
 import Popups from "./components/site/Popups";
+import CampusFeature from "./components/site/CampusFeature";
 import {
   getSiteSettings,
   getStats,
@@ -18,6 +19,7 @@ import {
   getFaculty,
   getTestimonials,
   getActivePopups,
+  getCampusPhotos,
 } from "@/lib/queries";
 
 // Content lives in Supabase and is edited from /admin, so this page must
@@ -53,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [settings, heroStats, resultStats, pillars, tracks, faculty, testimonials, popups] =
+  const [settings, heroStats, resultStats, pillars, tracks, faculty, testimonials, popups, campusPhotos] =
     await Promise.all([
       getSiteSettings(),
       getStats("hero"),
@@ -63,6 +65,7 @@ export default async function HomePage() {
       getFaculty(),
       getTestimonials(),
       getActivePopups(),
+      getCampusPhotos(),
     ]);
 
   return (
@@ -75,10 +78,13 @@ export default async function HomePage() {
         showResults={settings.show_results_stats}
       />
       <Hero settings={settings} stats={heroStats} />
+      <CampusFeature photo={campusPhotos.after_hero} />
       <Mission settings={settings} />
       <Pillars pillars={pillars} />
       <Tracks tracks={tracks} />
+      <CampusFeature photo={campusPhotos.after_programs} />
       <Faculty faculty={faculty} />
+      <CampusFeature photo={campusPhotos.after_faculty} />
       {settings.show_results_stats && <StatsBand stats={resultStats} />}
       {settings.show_testimonials && <Testimonials testimonials={testimonials} />}
       <Contact settings={settings} />

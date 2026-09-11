@@ -204,6 +204,33 @@ select * from (values
 where not exists (select 1 from testimonials);
 
 -- ---------------------------------------------------------------------------
+-- campus_photos: three FIXED slots (not a free-form list) rendered as big
+-- full-bleed photo bands between sections on the home page — after the
+-- hero, after the program tracks, and after the faculty grid. `position` is
+-- the primary key and only ever takes on these three values; the admin
+-- panel edits the three rows in place (photo/caption/visible toggle) but
+-- never adds or removes one. A row with `active = false` OR no `image_url`
+-- yet simply doesn't render — no placeholder art ships to real visitors.
+-- ---------------------------------------------------------------------------
+create table if not exists campus_photos (
+  position text primary key check (position in ('after_hero', 'after_programs', 'after_faculty')),
+  university text not null default '',
+  location text,
+  caption text,
+  image_url text,
+  active boolean not null default true,
+  updated_at timestamptz not null default now()
+);
+
+insert into campus_photos (position, university, location, caption)
+select * from (values
+  ('after_hero', 'Harvard', 'Cambridge, MA', '학생들이 첫발을 내딛는 곳 — 목표를 눈으로 확인하는 순간부터 로드맵은 달라집니다.'),
+  ('after_programs', 'Yale', 'New Haven, CT', '두 트랙이 만나는 지점 — 컨설팅과 시험 준비 모두 결국 이 문 앞으로 향합니다.'),
+  ('after_faculty', 'Stanford', 'Stanford, CA', '강사진이 직접 걸었던 길 — 경험에서 나온 조언이 다른 이유입니다.')
+) as seed(position, university, location, caption)
+where not exists (select 1 from campus_photos);
+
+-- ---------------------------------------------------------------------------
 -- Row Level Security: the public site reads with the anon key, so every
 -- table allows public SELECT. There are no INSERT/UPDATE/DELETE policies for
 -- anon/authenticated — all writes go through the admin panel's Server
@@ -218,6 +245,7 @@ alter table tracks enable row level security;
 alter table faculty enable row level security;
 alter table testimonials enable row level security;
 alter table popups enable row level security;
+alter table campus_photos enable row level security;
 
 drop policy if exists "public read site_settings" on site_settings;
 create policy "public read site_settings" on site_settings for select using (true);
@@ -239,6 +267,9 @@ create policy "public read testimonials" on testimonials for select using (true)
 
 drop policy if exists "public read popups" on popups;
 create policy "public read popups" on popups for select using (true);
+
+drop policy if exists "public read campus_photos" on campus_photos;
+create policy "public read campus_photos" on campus_photos for select using (true);
 
 -- ---------------------------------------------------------------------------
 -- Storage: a public "media" bucket for the logo + faculty photos uploaded

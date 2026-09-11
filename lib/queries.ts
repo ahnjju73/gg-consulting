@@ -8,6 +8,8 @@ import type {
   FacultyMember,
   Testimonial,
   Popup,
+  CampusPhoto,
+  CampusPhotoPosition,
 } from "./types";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -81,4 +83,21 @@ export async function getActivePopups(): Promise<Popup[]> {
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return (data ?? []) as Popup[];
+}
+
+// All three fixed campus_photos rows (see supabase/schema.sql), keyed by
+// position for easy lookup on the home page. Returns every row regardless
+// of `active`/`image_url` — the page decides what to render, the admin
+// panel needs every row to build its edit forms.
+export async function getCampusPhotos(): Promise<
+  Record<CampusPhotoPosition, CampusPhoto | undefined>
+> {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase.from("campus_photos").select("*");
+  if (error) throw error;
+  const rows = (data ?? []) as CampusPhoto[];
+  return Object.fromEntries(rows.map((r) => [r.position, r])) as Record<
+    CampusPhotoPosition,
+    CampusPhoto | undefined
+  >;
 }

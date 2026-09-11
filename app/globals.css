@@ -652,6 +652,58 @@ section {
   font-size: 0.85rem;
 }
 
+/* ---------- CAMPUS PHOTO FEATURE ---------- */
+/* One big full-bleed photo band, dropped between sections (see
+   CampusFeature.tsx + the three fixed slots in supabase/schema.sql). */
+.campus-feature {
+  position: relative;
+  height: clamp(300px, 46vw, 560px);
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.campus-feature-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.campus-feature-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(1.4rem, 4vw, 2.6rem) 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 14, 22, 0.94) 20%,
+    rgba(10, 14, 22, 0.25) 75%,
+    transparent
+  );
+}
+.campus-feature-cap b {
+  display: block;
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  color: #f4f1ea;
+}
+.campus-feature-cap .place {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-strong);
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+  display: block;
+}
+.campus-feature-cap p {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  max-width: 34rem;
+}
+
 /* ---------- STATS BAND ---------- */
 .stats-band {
   background: var(--ink-soft);
@@ -934,6 +986,9 @@ footer {
   }
   .contact-panel {
     grid-template-columns: 1fr;
+  }
+  .campus-feature {
+    height: clamp(260px, 68vw, 360px);
   }
 }
 @media (max-width: 520px) {
