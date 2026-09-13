@@ -632,6 +632,11 @@ section {
 .fac-card h4 {
   font-size: 1.05rem;
 }
+.fac-card .role-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
 .fac-card .role {
   font-size: 0.78rem;
   color: var(--gold);
