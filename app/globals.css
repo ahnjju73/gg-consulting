@@ -155,6 +155,58 @@ a:focus-visible {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* ---------- NAV DROPDOWN (EC hover submenu) ---------- */
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 190px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  z-index: 60;
+}
+.nav-dropdown .nav-dropdown-menu a {
+  padding: 0.55rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nav-dropdown .nav-dropdown-menu a:hover {
+    background: color-mix(in srgb, var(--gold) 12%, transparent);
+    color: var(--gold);
+  }
+}
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-dropdown-menu {
+    transition: none;
+  }
+}
 .cta-pill {
   background: var(--cta-bg);
   color: var(--cta-text);
@@ -235,12 +287,55 @@ a:focus-visible {
   text-decoration: none;
   color: var(--text);
 }
+.mobile-drawer-group {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-drawer-group-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mobile-drawer-group-row a {
+  flex: 1;
+  border-bottom: none;
+}
+.mobile-drawer-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-soft);
+}
+.mobile-drawer-toggle svg {
+  transition: transform 0.2s ease;
+}
+.mobile-drawer-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.mobile-drawer-submenu {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.6rem;
+}
+.mobile-drawer-submenu a {
+  padding: 0.7rem 0.2rem 0.7rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  border-bottom: none;
+}
 .mobile-drawer .btn-primary {
   justify-content: center;
 }
 @media (prefers-reduced-motion: reduce) {
   .drawer-backdrop,
-  .mobile-drawer {
+  .mobile-drawer,
+  .mobile-drawer-toggle svg {
     transition: none;
   }
 }

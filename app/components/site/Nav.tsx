@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
+import { EC_SERVICES } from "./ecServicesData";
 
 export default function Nav({
   logoMain,
@@ -38,7 +39,16 @@ export default function Nav({
           <Link href="/#mission">소개</Link>
           <Link href="/faculty">선생님 소개</Link>
           <Link href="/curriculum">수업</Link>
-          <Link href="/activities">EC</Link>
+          <div className="nav-dropdown">
+            <Link href="/activities">EC</Link>
+            <div className="nav-dropdown-menu">
+              {EC_SERVICES.map((s) => (
+                <Link href={`/activities/${s.slug}`} key={s.slug}>
+                  {s.title}
+                </Link>
+              ))}
+            </div>
+          </div>
           {showResults && <Link href="/#results">입학성과</Link>}
           <Link href="/#contact">상담문의</Link>
         </nav>
