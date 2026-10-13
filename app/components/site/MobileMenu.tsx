@@ -6,8 +6,8 @@ import Link from "next/link";
 
 const baseLinks = [
   { href: "/#mission", label: "소개" },
-  { href: "/curriculum", label: "수업" },
   { href: "/faculty", label: "선생님 소개" },
+  { href: "/curriculum", label: "수업" },
   { href: "/activities", label: "EC" },
   { href: "/#results", label: "입학성과" },
   { href: "/#contact", label: "상담문의" },

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Nav from "../components/site/Nav";
 import PageHeader from "../components/site/PageHeader";
 import Faculty from "../components/site/Faculty";
-import Contact from "../components/site/Contact";
 import Footer from "../components/site/Footer";
 import Popups from "../components/site/Popups";
 import { getSiteSettings, getFaculty, getActivePopups } from "@/lib/queries";
@@ -41,7 +40,6 @@ export default async function FacultyPage() {
         lead="가르치는 사람이 아니라, 함께 설계하는 사람입니다."
       />
       <Faculty faculty={faculty} />
-      <Contact settings={settings} />
       <Footer settings={settings} />
     </>
   );

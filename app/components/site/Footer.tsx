@@ -34,8 +34,8 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
         </div>
         <div className="foot-links">
           <Link href="/#mission">소개</Link>
-          <Link href="/curriculum">수업</Link>
           <Link href="/faculty">선생님 소개</Link>
+          <Link href="/curriculum">수업</Link>
           <Link href="/activities">EC</Link>
           <Link href="/#contact">상담문의</Link>
         </div>

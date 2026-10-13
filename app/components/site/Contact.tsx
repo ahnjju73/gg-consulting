@@ -29,9 +29,6 @@ export default function Contact({ settings }: { settings: SiteSettings }) {
                 <a className="btn-primary" href={telHref}>
                   전화 상담 신청 →
                 </a>
-                <a className="phone-link" href={telHref}>
-                  ☎ {settings.phone}
-                </a>
               </div>
             )}
           </div>
@@ -40,7 +37,9 @@ export default function Contact({ settings }: { settings: SiteSettings }) {
               <div className="contact-item">
                 <div className="ico">☎</div>
                 <div>
-                  <b>{settings.phone}</b>
+                  <b>
+                    <a href={telHref}>{settings.phone}</a>
+                  </b>
                   <span>{settings.business_hours}</span>
                 </div>
               </div>

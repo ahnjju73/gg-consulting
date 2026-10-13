@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Nav from "../components/site/Nav";
 import PageHeader from "../components/site/PageHeader";
 import EcServices from "../components/site/EcServices";
-import Contact from "../components/site/Contact";
 import Footer from "../components/site/Footer";
 import Popups from "../components/site/Popups";
 import { getSiteSettings, getActivePopups } from "@/lib/queries";
@@ -40,7 +39,6 @@ export default async function ActivitiesPage() {
         lead="성적만으로는 설명되지 않는 지원자를 만듭니다."
       />
       <EcServices />
-      <Contact settings={settings} />
       <Footer settings={settings} />
     </>
   );

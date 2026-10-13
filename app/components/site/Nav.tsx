@@ -36,8 +36,8 @@ export default function Nav({
         </div>
         <nav className="links">
           <Link href="/#mission">소개</Link>
-          <Link href="/curriculum">수업</Link>
           <Link href="/faculty">선생님 소개</Link>
+          <Link href="/curriculum">수업</Link>
           <Link href="/activities">EC</Link>
           {showResults && <Link href="/#results">입학성과</Link>}
           <Link href="/#contact">상담문의</Link>
