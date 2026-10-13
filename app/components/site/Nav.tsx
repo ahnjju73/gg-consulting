@@ -1,3 +1,4 @@
+import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 
 export default function Nav({
@@ -34,16 +35,17 @@ export default function Nav({
           )}
         </div>
         <nav className="links">
-          <a href="#mission">소개</a>
-          <a href="#programs">프로그램</a>
-          <a href="#faculty">강사진</a>
-          {showResults && <a href="#results">입학성과</a>}
-          <a href="#contact">상담문의</a>
+          <Link href="/#mission">소개</Link>
+          <Link href="/curriculum">수업</Link>
+          <Link href="/faculty">선생님 소개</Link>
+          <Link href="/activities">EC</Link>
+          {showResults && <Link href="/#results">입학성과</Link>}
+          <Link href="/#contact">상담문의</Link>
         </nav>
         <div className="nav-actions">
-          <a className="cta-pill" href="#contact">
+          <Link className="cta-pill" href="/#contact">
             상담 신청
-          </a>
+          </Link>
           <MobileMenu showResults={showResults} />
         </div>
       </div>

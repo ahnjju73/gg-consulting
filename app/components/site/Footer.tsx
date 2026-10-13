@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { SiteSettings } from "@/lib/types";
 
 export default function Footer({ settings }: { settings: SiteSettings }) {
@@ -32,10 +33,11 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           </div>
         </div>
         <div className="foot-links">
-          <a href="#mission">소개</a>
-          <a href="#programs">프로그램</a>
-          <a href="#faculty">강사진</a>
-          <a href="#contact">상담문의</a>
+          <Link href="/#mission">소개</Link>
+          <Link href="/curriculum">수업</Link>
+          <Link href="/faculty">선생님 소개</Link>
+          <Link href="/activities">EC</Link>
+          <Link href="/#contact">상담문의</Link>
         </div>
       </div>
     </footer>

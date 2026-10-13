@@ -3,8 +3,7 @@ import Nav from "./components/site/Nav";
 import Hero from "./components/site/Hero";
 import Mission from "./components/site/Mission";
 import Pillars from "./components/site/Pillars";
-import Tracks from "./components/site/Tracks";
-import Faculty from "./components/site/Faculty";
+import ExploreLinks from "./components/site/ExploreLinks";
 import StatsBand from "./components/site/StatsBand";
 import Testimonials from "./components/site/Testimonials";
 import Contact from "./components/site/Contact";
@@ -15,8 +14,6 @@ import {
   getSiteSettings,
   getStats,
   getPillars,
-  getTracks,
-  getFaculty,
   getTestimonials,
   getActivePopups,
   getCampusPhotos,
@@ -55,14 +52,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [settings, heroStats, resultStats, pillars, tracks, faculty, testimonials, popups, campusPhotos] =
+  const [settings, heroStats, resultStats, pillars, testimonials, popups, campusPhotos] =
     await Promise.all([
       getSiteSettings(),
       getStats("hero"),
       getStats("results"),
       getPillars(),
-      getTracks(),
-      getFaculty(),
       getTestimonials(),
       getActivePopups(),
       getCampusPhotos(),
@@ -81,9 +76,8 @@ export default async function HomePage() {
       <CampusFeature photo={campusPhotos.after_hero} />
       <Mission settings={settings} />
       <Pillars pillars={pillars} />
-      <Tracks tracks={tracks} />
       <CampusFeature photo={campusPhotos.after_programs} />
-      <Faculty faculty={faculty} />
+      <ExploreLinks />
       <CampusFeature photo={campusPhotos.after_faculty} />
       {settings.show_results_stats && <StatsBand stats={resultStats} />}
       {settings.show_testimonials && <Testimonials testimonials={testimonials} />}

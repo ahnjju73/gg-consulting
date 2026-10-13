@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 
 const baseLinks = [
-  { href: "#mission", label: "소개" },
-  { href: "#programs", label: "프로그램" },
-  { href: "#faculty", label: "강사진" },
-  { href: "#results", label: "입학성과" },
-  { href: "#contact", label: "상담문의" },
+  { href: "/#mission", label: "소개" },
+  { href: "/curriculum", label: "수업" },
+  { href: "/faculty", label: "선생님 소개" },
+  { href: "/activities", label: "EC" },
+  { href: "/#results", label: "입학성과" },
+  { href: "/#contact", label: "상담문의" },
 ];
 
 export default function MobileMenu({
@@ -19,7 +21,7 @@ export default function MobileMenu({
   const [open, setOpen] = useState(false);
   const links = showResults
     ? baseLinks
-    : baseLinks.filter((l) => l.href !== "#results");
+    : baseLinks.filter((l) => l.href !== "/#results");
   // The drawer/backdrop are portaled to <body> (see below) because
   // header.nav has `backdrop-filter`, which — like `transform` or `filter`
   // — creates a new containing block for `position: fixed` descendants.
@@ -91,18 +93,18 @@ export default function MobileMenu({
             >
               <nav className="mobile-drawer-links">
                 {links.map((l) => (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
+                  <Link key={l.href} href={l.href} onClick={() => setOpen(false)}>
                     {l.label}
-                  </a>
+                  </Link>
                 ))}
               </nav>
-              <a
+              <Link
                 className="btn-primary"
-                href="#contact"
+                href="/#contact"
                 onClick={() => setOpen(false)}
               >
                 상담 신청 →
-              </a>
+              </Link>
             </aside>
           </>,
           document.body
