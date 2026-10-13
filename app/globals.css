@@ -684,8 +684,20 @@ section {
   border: 1px solid var(--line);
 }
 .ec-card {
+  display: block;
   background: var(--surface);
   padding: 2.2rem 1.7rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ec-card:hover {
+    background: color-mix(in srgb, var(--surface) 85%, var(--gold) 6%);
+  }
+}
+.ec-card .explore-link {
+  display: inline-block;
+  margin-top: 1rem;
 }
 .ec-card .num {
   font-family: "IBM Plex Mono", monospace;
@@ -703,6 +715,75 @@ section {
   font-size: 0.88rem;
 }
 
+/* ---------- EC SUB-NAV (sibling links between EC service pages) ---------- */
+.ec-subnav {
+  border-bottom: 1px solid var(--line);
+}
+.ec-subnav .wrap {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-top: 1.4rem;
+  padding-bottom: 1.4rem;
+  scrollbar-width: thin;
+}
+.ec-subnav a {
+  flex-shrink: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-soft);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.ec-subnav a.active {
+  color: var(--gold);
+  border-color: color-mix(in srgb, var(--gold) 45%, var(--line));
+  background: color-mix(in srgb, var(--gold) 10%, transparent);
+}
+
+/* ---------- EC DETAIL (single service's breakdown list) ---------- */
+.ec-detail-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: clamp(1.8rem, 4vw, 2.6rem);
+  max-width: 720px;
+}
+.ec-detail-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.ec-detail-card li {
+  display: flex;
+  gap: 0.7rem;
+  font-size: 0.98rem;
+  color: var(--text-soft);
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
+  line-height: 1.6;
+}
+.ec-detail-card li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.ec-detail-card li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 0.6em;
+  flex-shrink: 0;
+}
+
 /* ---------- EXPLORE LINKS (home teasers to sub-pages) ---------- */
 .explore-grid {
   display: grid;
@@ -717,6 +798,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  text-decoration: none;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
