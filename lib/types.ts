@@ -93,3 +93,13 @@ export type CampusPhoto = {
   active: boolean;
   updated_at: string;
 };
+
+export type GradeStage = {
+  id: string;
+  slug: string;
+  grade_tag: string;
+  title: string;
+  description: string;
+  items: string[];
+  sort_order: number;
+};

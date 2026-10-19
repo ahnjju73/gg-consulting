@@ -6,6 +6,7 @@ const sections = [
   { href: "/admin/stats", label: "통계 숫자" },
   { href: "/admin/pillars", label: "네 가지 원칙" },
   { href: "/admin/tracks", label: "프로그램 트랙" },
+  { href: "/admin/grade-stages", label: "학년별 가이드" },
   { href: "/admin/faculty", label: "강사진" },
   { href: "/admin/testimonials", label: "학부모 후기" },
   { href: "/admin/popups", label: "팝업 공지" },

@@ -283,3 +283,49 @@ on conflict (id) do nothing;
 drop policy if exists "public read media" on storage.objects;
 create policy "public read media" on storage.objects
   for select using (bucket_id = 'media');
+
+-- ---------------------------------------------------------------------------
+-- grade_stages: the "학년별 가이드" tab group on the /curriculum page — three
+-- (or more) grade-range stages, each with its own short description and a
+-- bullet list of what's taught. `items` is a JSON array of strings, same
+-- newline-per-item convention as tracks.items; a line containing " — " is
+-- rendered with the part before the dash in bold (e.g. "북클럽 — 매주 원서를
+-- 함께 읽고 토론합니다"), a line without one renders as plain text.
+-- ---------------------------------------------------------------------------
+create table if not exists grade_stages (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  grade_tag text not null,
+  title text not null,
+  description text not null,
+  items jsonb not null default '[]'::jsonb,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+insert into grade_stages (slug, grade_tag, title, description, items, sort_order)
+values
+  (
+    'early', '저학년', '국제학교 준비반',
+    '국제학교 입학을 목표로 하는 저학년 학생을 위한 수업입니다. 트랙 구분 없이 별도로 진행됩니다.',
+    '["북클럽 — 매주 원서를 함께 읽고 토론하며 독해력과 표현력을 키웁니다.", "영어 — 읽기·듣기·말하기·쓰기를 고르게 다지며 국제학교 입학 시험을 준비합니다.", "수학 — 또래 대비 심화 개념을 익혀 레벨테스트에 대비합니다.", "지원 시기에 맞춰 포트폴리오와 인터뷰까지 함께 준비합니다."]'::jsonb,
+    1
+  ),
+  (
+    'foundation', '9–10학년', '기초 다지기',
+    '9–10학년, 내신과 시험 기초를 함께 쌓아 11학년 이후 입시 집중기를 준비하는 단계입니다.',
+    '["내신 전 과목 관리 — 수학·과학·영어·인문 전 과목 성적을 체계적으로 관리합니다.", "Digital SAT 기초 — Reading·Writing·Math 기본기를 다집니다.", "AP·IB 기초 — 향후 심화 과목 선택을 위한 기초 과정을 시작합니다.", "학년이 올라가며 자연스럽게 아래 두 트랙(입시 컨설팅·시험 준비)으로 이어집니다."]'::jsonb,
+    2
+  ),
+  (
+    'intensive', '11–12학년', '입시 집중',
+    '11–12학년, Digital SAT·AP·IB 심화 과정과 대학 입시 컨설팅을 함께 진행하는 단계입니다.',
+    '["Digital SAT 심화 — 실전 모의고사와 오답 분석으로 목표 점수를 완성합니다.", "AP·IB 심화 — Calculus(AB/BC)·Computer Science A·Statistics 중심, 필요 과목은 전문 강사 매칭으로 전 과목 대응합니다.", "입시 컨설팅 — 대학 리스트 빌딩, 에세이 첨삭, 인터뷰 모의훈련을 함께 진행합니다.", "학부모 대상 월간 진행 리포트로 두 트랙의 진행 상황을 공유합니다."]'::jsonb,
+    3
+  )
+on conflict (slug) do nothing;
+
+alter table grade_stages enable row level security;
+
+drop policy if exists "public read grade_stages" on grade_stages;
+create policy "public read grade_stages" on grade_stages for select using (true);

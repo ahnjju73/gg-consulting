@@ -10,6 +10,7 @@ import type {
   Popup,
   CampusPhoto,
   CampusPhotoPosition,
+  GradeStage,
 } from "./types";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -100,4 +101,14 @@ export async function getCampusPhotos(): Promise<
     CampusPhotoPosition,
     CampusPhoto | undefined
   >;
+}
+
+export async function getGradeStages(): Promise<GradeStage[]> {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("grade_stages")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as GradeStage[];
 }

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Nav from "../components/site/Nav";
 import PageHeader from "../components/site/PageHeader";
 import Tracks from "../components/site/Tracks";
+import GradeGuide from "../components/site/GradeGuide";
 import Footer from "../components/site/Footer";
 import Popups from "../components/site/Popups";
-import { getSiteSettings, getTracks, getActivePopups } from "@/lib/queries";
+import { getSiteSettings, getTracks, getGradeStages, getActivePopups } from "@/lib/queries";
 
 // Tracks are admin-editable from /admin — never serve this from a stale
 // build-time cache (see app/page.tsx for the same reasoning).
@@ -19,9 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CurriculumPage() {
-  const [settings, tracks, popups] = await Promise.all([
+  const [settings, tracks, gradeStages, popups] = await Promise.all([
     getSiteSettings(),
     getTracks(),
+    getGradeStages(),
     getActivePopups(),
   ]);
 
@@ -40,6 +42,7 @@ export default async function CurriculumPage() {
         lead="입시의 시작부터 등록까지, 두 트랙이 하나의 팀 안에서 조율됩니다."
       />
       <Tracks tracks={tracks} />
+      <GradeGuide stages={gradeStages} />
       <Footer settings={settings} />
     </>
   );
