@@ -763,18 +763,18 @@ section {
 /* ---------- FACULTY ---------- */
 .faculty-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.6rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem 2rem;
 }
 .fac-card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 1.9rem 1.6rem;
+  padding: 2.3rem 2rem;
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.3rem;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
@@ -844,6 +844,11 @@ section {
 }
 .fac-card p {
   font-size: 0.85rem;
+  line-height: 1.7;
+  /* Bios are admin-edited in a <textarea> and may contain line breaks the
+     admin typed with Enter — preserve them instead of collapsing to a
+     single run-on line (default `white-space: normal` behavior). */
+  white-space: pre-line;
 }
 
 /* ---------- SUB-PAGE HEADER ---------- */
