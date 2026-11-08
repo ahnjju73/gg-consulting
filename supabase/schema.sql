@@ -35,11 +35,19 @@ create table if not exists site_settings (
   -- immediately without any other action.
   show_results_stats boolean not null default false,
   show_testimonials boolean not null default false,
+  -- "2027 겨울방학 특강" nav menu item — the label is admin-editable (so it
+  -- can be renamed "2028 여름방학 특강" etc. next season without a code
+  -- change) and can be hidden from the nav entirely once the season ends,
+  -- without deleting the winter_camp_courses rows underneath it.
+  winter_camp_title text not null default '2027 겨울방학 특강',
+  winter_camp_nav_visible boolean not null default true,
   updated_at timestamptz not null default now()
 );
 
 alter table site_settings add column if not exists show_results_stats boolean not null default false;
 alter table site_settings add column if not exists show_testimonials boolean not null default false;
+alter table site_settings add column if not exists winter_camp_title text not null default '2027 겨울방학 특강';
+alter table site_settings add column if not exists winter_camp_nav_visible boolean not null default true;
 
 insert into site_settings (id) values (1) on conflict (id) do nothing;
 
@@ -329,3 +337,27 @@ alter table grade_stages enable row level security;
 
 drop policy if exists "public read grade_stages" on grade_stages;
 create policy "public read grade_stages" on grade_stages for select using (true);
+
+-- ---------------------------------------------------------------------------
+-- winter_camp_courses: the course roster behind the "2027 겨울방학 특강"
+-- menu item (see site_settings.winter_camp_title/winter_camp_nav_visible
+-- above). Each row is one course card (course name + teacher name) on
+-- /winter-camp; clicking "수업소개" goes to /winter-camp/[id], a simple
+-- page showing just the uploaded photo — the "course intro" content here
+-- IS an image (a flyer/syllabus photo), not written text, by design.
+-- `image_url` is nullable: a course can be added before its photo is ready,
+-- and the detail page shows a "준비 중" placeholder until one is uploaded.
+-- ---------------------------------------------------------------------------
+create table if not exists winter_camp_courses (
+  id uuid primary key default gen_random_uuid(),
+  course_name text not null,
+  teacher_name text not null,
+  image_url text,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table winter_camp_courses enable row level security;
+
+drop policy if exists "public read winter_camp_courses" on winter_camp_courses;
+create policy "public read winter_camp_courses" on winter_camp_courses for select using (true);

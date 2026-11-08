@@ -37,6 +37,9 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           <Link href="/faculty">선생님 소개</Link>
           <Link href="/curriculum">수업</Link>
           <Link href="/activities">EC</Link>
+          {settings.winter_camp_nav_visible && (
+            <Link href="/winter-camp">{settings.winter_camp_title}</Link>
+          )}
           <Link href="/#contact">상담문의</Link>
         </div>
       </div>

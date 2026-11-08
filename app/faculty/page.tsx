@@ -33,6 +33,8 @@ export default async function FacultyPage() {
         logoAccent={settings.logo_text_accent}
         logoUrl={settings.logo_url}
         showResults={settings.show_results_stats}
+        winterCampTitle={settings.winter_camp_title}
+        winterCampVisible={settings.winter_camp_nav_visible}
       />
       <PageHeader
         eyebrow="FACULTY"

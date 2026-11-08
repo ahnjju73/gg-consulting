@@ -19,6 +19,8 @@ export type SiteSettings = {
   logo_url: string | null;
   show_results_stats: boolean;
   show_testimonials: boolean;
+  winter_camp_title: string;
+  winter_camp_nav_visible: boolean;
   updated_at: string;
 };
 
@@ -101,5 +103,13 @@ export type GradeStage = {
   title: string;
   description: string;
   items: string[];
+  sort_order: number;
+};
+
+export type WinterCampCourse = {
+  id: string;
+  course_name: string;
+  teacher_name: string;
+  image_url: string | null;
   sort_order: number;
 };

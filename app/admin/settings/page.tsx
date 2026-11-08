@@ -252,6 +252,37 @@ export default async function SettingsPage() {
           </label>
         </div>
 
+        <div className={fieldset}>
+          <div className={legend}>겨울방학 특강 메뉴</div>
+          <p className="text-xs text-slate-500">
+            네비게이션 메뉴에 뜨는 이름입니다. 시즌이 바뀌면(예: &quot;2028
+            여름방학 특강&quot;) 여기서 이름만 바꾸면 되고, 체크를 끄면 메뉴에서
+            즉시 숨길 수 있습니다 (등록된 수업 데이터는 그대로 남아 있습니다).
+            수업 목록 자체는{" "}
+            <a href="/admin/winter-camp" className="underline">
+              겨울방학 특강
+            </a>{" "}
+            메뉴에서 관리하세요.
+          </p>
+          <div>
+            <label className={label}>메뉴에 표시할 이름</label>
+            <input
+              className={input}
+              name="winter_camp_title"
+              defaultValue={s.winter_camp_title}
+            />
+          </div>
+          <label className="flex items-center gap-2 text-sm text-slate-700">
+            <input
+              type="checkbox"
+              name="winter_camp_nav_visible"
+              defaultChecked={s.winter_camp_nav_visible}
+              className="rounded border-slate-300"
+            />
+            네비게이션 메뉴와 푸터에 표시
+          </label>
+        </div>
+
         <button
           type="submit"
           className="rounded-md bg-slate-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-slate-800"

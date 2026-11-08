@@ -52,6 +52,8 @@ export default async function EcServiceDetailPage({
         logoAccent={settings.logo_text_accent}
         logoUrl={settings.logo_url}
         showResults={settings.show_results_stats}
+        winterCampTitle={settings.winter_camp_title}
+        winterCampVisible={settings.winter_camp_nav_visible}
       />
       <PageHeader eyebrow="EC" title={service.title} lead={service.lead} />
       <EcSubNav />

@@ -7,11 +7,15 @@ export default function Nav({
   logoAccent,
   logoUrl,
   showResults,
+  winterCampTitle,
+  winterCampVisible,
 }: {
   logoMain: string;
   logoAccent: string;
   logoUrl: string | null;
   showResults: boolean;
+  winterCampTitle: string;
+  winterCampVisible: boolean;
 }) {
   return (
     <header className="nav">
@@ -49,6 +53,9 @@ export default function Nav({
               ))}
             </div>
           </div>
+          {winterCampVisible && (
+            <Link href="/winter-camp">{winterCampTitle}</Link>
+          )}
           {showResults && <Link href="/#results">입학성과</Link>}
           <Link href="/#contact">상담문의</Link>
         </nav>
@@ -56,7 +63,11 @@ export default function Nav({
           <Link className="cta-pill" href="/#contact">
             상담 신청
           </Link>
-          <MobileMenu showResults={showResults} />
+          <MobileMenu
+            showResults={showResults}
+            winterCampTitle={winterCampTitle}
+            winterCampVisible={winterCampVisible}
+          />
         </div>
       </div>
     </header>

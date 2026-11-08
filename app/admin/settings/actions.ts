@@ -31,6 +31,8 @@ export async function updateSettings(formData: FormData) {
     representative_name: str(formData, "representative_name"),
     show_results_stats: formData.get("show_results_stats") === "on",
     show_testimonials: formData.get("show_testimonials") === "on",
+    winter_camp_title: str(formData, "winter_camp_title"),
+    winter_camp_nav_visible: formData.get("winter_camp_nav_visible") === "on",
     updated_at: new Date().toISOString(),
   };
 

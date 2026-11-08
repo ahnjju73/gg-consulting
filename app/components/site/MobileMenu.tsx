@@ -17,8 +17,12 @@ const afterEcLinks = [
 
 export default function MobileMenu({
   showResults = true,
+  winterCampTitle,
+  winterCampVisible,
 }: {
   showResults?: boolean;
+  winterCampTitle: string;
+  winterCampVisible: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [ecOpen, setEcOpen] = useState(false);
@@ -140,6 +144,11 @@ export default function MobileMenu({
                     </div>
                   )}
                 </div>
+                {winterCampVisible && (
+                  <Link href="/winter-camp" onClick={() => setOpen(false)}>
+                    {winterCampTitle}
+                  </Link>
+                )}
                 {trailingLinks.map((l) => (
                   <Link key={l.href} href={l.href} onClick={() => setOpen(false)}>
                     {l.label}

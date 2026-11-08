@@ -1019,6 +1019,76 @@ section {
   color: var(--gold);
 }
 
+/* ---------- WINTER CAMP (admin-managed course roster) ---------- */
+.winter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.winter-card {
+  background: var(--surface);
+  padding: 2.2rem 1.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: background-color 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .winter-card:hover {
+    background: color-mix(in srgb, var(--surface) 85%, var(--gold) 6%);
+  }
+}
+.winter-card .num {
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+.winter-card h3 {
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  font-family: "Noto Serif KR", serif;
+}
+.winter-card .teacher {
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+}
+.winter-card .cta-pill {
+  align-self: flex-start;
+  margin-top: 1.4rem;
+}
+.winter-empty {
+  color: var(--text-faint);
+  font-size: 0.92rem;
+}
+
+/* ---------- WINTER CAMP DETAIL (single course — a photo, not text) ---------- */
+.winter-detail {
+  max-width: 880px;
+}
+.winter-detail-photo {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.winter-detail-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.winter-detail-empty {
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  padding: clamp(2.5rem, 8vw, 4rem) 1.5rem;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.92rem;
+}
+
 /* ---------- CAMPUS PHOTO FEATURE ---------- */
 /* One big full-bleed photo band, dropped between sections (see
    CampusFeature.tsx + the three fixed slots in supabase/schema.sql). */
@@ -1325,6 +1395,9 @@ footer {
   .ec-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .winter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .explore-grid {
     grid-template-columns: 1fr;
   }
@@ -1369,6 +1442,9 @@ footer {
     grid-template-columns: 1fr;
   }
   .ec-grid {
+    grid-template-columns: 1fr;
+  }
+  .winter-grid {
     grid-template-columns: 1fr;
   }
 }

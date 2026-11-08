@@ -71,6 +71,8 @@ export default async function HomePage() {
         logoAccent={settings.logo_text_accent}
         logoUrl={settings.logo_url}
         showResults={settings.show_results_stats}
+        winterCampTitle={settings.winter_camp_title}
+        winterCampVisible={settings.winter_camp_nav_visible}
       />
       <Hero settings={settings} stats={heroStats} />
       <CampusFeature photo={campusPhotos.after_hero} />

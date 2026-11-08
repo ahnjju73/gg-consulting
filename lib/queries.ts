@@ -11,6 +11,7 @@ import type {
   CampusPhoto,
   CampusPhotoPosition,
   GradeStage,
+  WinterCampCourse,
 } from "./types";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -111,4 +112,35 @@ export async function getGradeStages(): Promise<GradeStage[]> {
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return (data ?? []) as GradeStage[];
+}
+
+export async function getWinterCampCourses(): Promise<WinterCampCourse[]> {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("winter_camp_courses")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as WinterCampCourse[];
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+// Looks up a single course by id for /winter-camp/[id]. Returns null (not a
+// thrown error) both when the id is well-formed but no row matches, and when
+// it's not a valid uuid at all — a malformed id in the URL should 404, not
+// 500, and Postgres throws on `.eq("id", <non-uuid text>)` rather than just
+// returning zero rows, so the format is checked before ever querying.
+export async function getWinterCampCourse(
+  id: string
+): Promise<WinterCampCourse | null> {
+  if (!UUID_RE.test(id)) return null;
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("winter_camp_courses")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as WinterCampCourse) ?? null;
 }
