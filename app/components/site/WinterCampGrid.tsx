@@ -2,6 +2,12 @@ import Link from "next/link";
 import type { WinterCampCourse } from "@/lib/types";
 import Reveal from "./Reveal";
 
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
 export default function WinterCampGrid({
   courses,
 }: {
@@ -20,21 +26,19 @@ export default function WinterCampGrid({
   return (
     <section>
       <div className="wrap">
-        <Reveal className="winter-list">
+        <Reveal className="winter-grid">
           {courses.map((c, i) => (
-            <Link className="winter-row" href={`/winter-camp/${c.id}`} key={c.id}>
-              <div className="winter-row-text">
-                <span className="num">{String(i + 1).padStart(2, "0")}</span>
-                <span className="winter-row-names">
-                  <h3>{c.course_name}</h3>
-                  <span className="teacher">{c.teacher_name}</span>
-                </span>
+            <Link className="winter-card" href={`/winter-camp/${c.id}`} key={c.id}>
+              <span className="ghost-num" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3>{c.course_name}</h3>
+              <div className="winter-card-teacher">
+                <span className="winter-card-avatar">{initials(c.teacher_name)}</span>
+                <span>{c.teacher_name}</span>
               </div>
-              <span className="winter-row-link">
-                수업소개
-                <span className="winter-row-arrow" aria-hidden="true">
-                  →
-                </span>
+              <span className="winter-card-explore">
+                수업소개 →
               </span>
             </Link>
           ))}
