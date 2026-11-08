@@ -1083,27 +1083,12 @@ section {
 .winter-card-teacher {
   position: relative;
   margin-top: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.winter-card-avatar {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: linear-gradient(155deg, var(--gold), var(--gold-strong));
-  color: #1a1207;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.64rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .winter-card-teacher span {
-  font-size: 0.85rem;
-  color: var(--text-soft);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
 }
 .winter-card-explore {
   position: relative;

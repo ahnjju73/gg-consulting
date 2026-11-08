@@ -2,12 +2,6 @@ import Link from "next/link";
 import type { WinterCampCourse } from "@/lib/types";
 import Reveal from "./Reveal";
 
-function initials(name: string) {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-  return name.slice(0, 2).toUpperCase();
-}
-
 export default function WinterCampGrid({
   courses,
 }: {
@@ -34,7 +28,6 @@ export default function WinterCampGrid({
               </span>
               <h3>{c.course_name}</h3>
               <div className="winter-card-teacher">
-                <span className="winter-card-avatar">{initials(c.teacher_name)}</span>
                 <span>{c.teacher_name}</span>
               </div>
               <span className="winter-card-explore">
