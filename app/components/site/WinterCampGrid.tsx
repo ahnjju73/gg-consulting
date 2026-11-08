@@ -20,16 +20,23 @@ export default function WinterCampGrid({
   return (
     <section>
       <div className="wrap">
-        <Reveal className="winter-grid">
+        <Reveal className="winter-list">
           {courses.map((c, i) => (
-            <div className="winter-card" key={c.id}>
-              <div className="num">{String(i + 1).padStart(2, "0")}</div>
-              <h3>{c.course_name}</h3>
-              <div className="teacher">{c.teacher_name}</div>
-              <Link className="cta-pill" href={`/winter-camp/${c.id}`}>
+            <Link className="winter-row" href={`/winter-camp/${c.id}`} key={c.id}>
+              <div className="winter-row-text">
+                <span className="num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="winter-row-names">
+                  <h3>{c.course_name}</h3>
+                  <span className="teacher">{c.teacher_name}</span>
+                </span>
+              </div>
+              <span className="winter-row-link">
                 수업소개
-              </Link>
-            </div>
+                <span className="winter-row-arrow" aria-hidden="true">
+                  →
+                </span>
+              </span>
+            </Link>
           ))}
         </Reveal>
       </div>

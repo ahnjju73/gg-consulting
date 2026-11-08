@@ -1019,46 +1019,93 @@ section {
   color: var(--gold);
 }
 
-/* ---------- WINTER CAMP (admin-managed course roster) ---------- */
-.winter-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+/* ---------- WINTER CAMP (admin-managed course roster) ----------
+   An editorial index list rather than a card grid — each course is one
+   hairline-divided row (number / serif title + mono teacher caption /
+   a quiet "수업소개 →" link), echoing .track li and .ec-detail-card li
+   elsewhere on the site instead of introducing a boxed-card-with-button
+   look that doesn't match the rest of the brand. */
+.winter-list {
+  border-top: 1px solid var(--line);
 }
-.winter-card {
-  background: var(--surface);
-  padding: 2.2rem 1.7rem;
+.winter-row {
   display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  transition: background-color 0.2s ease;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.7rem 0.2rem;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  transition:
+    padding-left 0.2s ease,
+    background-color 0.2s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .winter-card:hover {
-    background: color-mix(in srgb, var(--surface) 85%, var(--gold) 6%);
+  .winter-row:hover {
+    background: color-mix(in srgb, var(--surface) 0%, var(--gold) 5%);
+    padding-left: 0.8rem;
+  }
+  .winter-row:hover .winter-row-arrow {
+    transform: translateX(4px);
   }
 }
-.winter-card .num {
+.winter-row-text {
+  display: flex;
+  align-items: baseline;
+  gap: 1.3rem;
+  min-width: 0;
+}
+.winter-row .num {
   font-family: "IBM Plex Mono", monospace;
   color: var(--gold);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   letter-spacing: 0.08em;
+  flex-shrink: 0;
 }
-.winter-card h3 {
-  font-size: 1.1rem;
-  margin-top: 1rem;
+.winter-row-names {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.9rem;
+  row-gap: 0.2rem;
+  min-width: 0;
+}
+.winter-row h3 {
+  font-size: 1.18rem;
   font-family: "Noto Serif KR", serif;
+  color: var(--text);
 }
-.winter-card .teacher {
-  margin-top: 0.5rem;
-  font-size: 0.88rem;
-  color: var(--text-soft);
+.winter-row .teacher {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
-.winter-card .cta-pill {
-  align-self: flex-start;
-  margin-top: 1.4rem;
+.winter-row-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.winter-row-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+@media (max-width: 640px) {
+  .winter-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .winter-row-link {
+    padding-left: calc(0.76rem + 1.3rem);
+  }
 }
 .winter-empty {
   color: var(--text-faint);
@@ -1395,9 +1442,6 @@ footer {
   .ec-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .winter-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .explore-grid {
     grid-template-columns: 1fr;
   }
@@ -1442,9 +1486,6 @@ footer {
     grid-template-columns: 1fr;
   }
   .ec-grid {
-    grid-template-columns: 1fr;
-  }
-  .winter-grid {
     grid-template-columns: 1fr;
   }
 }
