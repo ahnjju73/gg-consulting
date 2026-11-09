@@ -11,6 +11,7 @@ import type {
   CampusPhoto,
   CampusPhotoPosition,
   GradeStage,
+  WinterCampCategory,
   WinterCampCourse,
 } from "./types";
 
@@ -112,6 +113,16 @@ export async function getGradeStages(): Promise<GradeStage[]> {
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return (data ?? []) as GradeStage[];
+}
+
+export async function getWinterCampCategories(): Promise<WinterCampCategory[]> {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("winter_camp_categories")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as WinterCampCategory[];
 }
 
 export async function getWinterCampCourses(): Promise<WinterCampCourse[]> {

@@ -6,6 +6,7 @@ import Footer from "../components/site/Footer";
 import Popups from "../components/site/Popups";
 import {
   getSiteSettings,
+  getWinterCampCategories,
   getWinterCampCourses,
   getActivePopups,
 } from "@/lib/queries";
@@ -24,8 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function WinterCampPage() {
-  const [settings, courses, popups] = await Promise.all([
+  const [settings, categories, courses, popups] = await Promise.all([
     getSiteSettings(),
+    getWinterCampCategories(),
     getWinterCampCourses(),
     getActivePopups(),
   ]);
@@ -46,7 +48,7 @@ export default async function WinterCampPage() {
         title={settings.winter_camp_title}
         lead="개설된 수업과 담당 선생님을 확인하세요. 수업소개를 누르면 자세한 안내를 볼 수 있습니다."
       />
-      <WinterCampGrid courses={courses} />
+      <WinterCampGrid categories={categories} courses={courses} />
       <Footer settings={settings} />
     </>
   );

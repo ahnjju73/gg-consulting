@@ -60,7 +60,13 @@ export default async function WinterCampCourseDetailPage({
       <PageHeader
         eyebrow={settings.winter_camp_title}
         title={course.course_name}
-        lead={`${course.teacher_name} 선생님`}
+        lead={[
+          `${course.teacher_name} 선생님`,
+          course.sessions_count ? `${course.sessions_count}회` : null,
+          course.total_hours ? `${course.total_hours}시간` : null,
+        ]
+          .filter(Boolean)
+          .join(" · ")}
       />
       <section>
         <div className="wrap winter-detail">

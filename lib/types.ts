@@ -106,10 +106,19 @@ export type GradeStage = {
   sort_order: number;
 };
 
+export type WinterCampCategory = {
+  id: string;
+  name: string;
+  sort_order: number;
+};
+
 export type WinterCampCourse = {
   id: string;
+  category_id: string | null;
   course_name: string;
   teacher_name: string;
+  sessions_count: number | null;
+  total_hours: number | null;
   image_url: string | null;
   sort_order: number;
 };

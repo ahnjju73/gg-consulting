@@ -18,12 +18,29 @@ async function uploadImage(
   return data.publicUrl;
 }
 
+// category_id/sessions_count/total_hours are all optional — an empty select
+// or empty number input should land as null, not "" or NaN.
+function optionalId(value: FormDataEntryValue | null): string | null {
+  const s = typeof value === "string" ? value.trim() : "";
+  return s.length > 0 ? s : null;
+}
+
+function optionalInt(value: FormDataEntryValue | null): number | null {
+  const s = typeof value === "string" ? value.trim() : "";
+  if (s.length === 0) return null;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
 export async function createWinterCampCourse(formData: FormData) {
   const supabase = createAdminClient();
 
   const payload: Record<string, unknown> = {
+    category_id: optionalId(formData.get("category_id")),
     course_name: formData.get("course_name"),
     teacher_name: formData.get("teacher_name"),
+    sessions_count: optionalInt(formData.get("sessions_count")),
+    total_hours: optionalInt(formData.get("total_hours")),
     sort_order: Number(formData.get("sort_order") ?? 0),
   };
 
@@ -46,8 +63,11 @@ export async function updateWinterCampCourse(formData: FormData) {
   const previousImageUrl = formData.get("current_image_url") as string | null;
 
   const payload: Record<string, unknown> = {
+    category_id: optionalId(formData.get("category_id")),
     course_name: formData.get("course_name"),
     teacher_name: formData.get("teacher_name"),
+    sessions_count: optionalInt(formData.get("sessions_count")),
+    total_hours: optionalInt(formData.get("total_hours")),
     sort_order: Number(formData.get("sort_order") ?? 0),
   };
 
@@ -87,6 +107,59 @@ export async function deleteWinterCampCourse(formData: FormData) {
 
   await deleteMediaFile(supabase, imageUrl);
 
+  revalidatePath("/winter-camp");
+  revalidatePath("/admin/winter-camp");
+}
+
+// ---------------------------------------------------------------------------
+// 카테고리 (영어/수학/컴퓨터/바이오 같은 분류) — 삭제해도 소속 수업이 지워지지
+// 않도록 DB에서 category_id를 on delete set null로 두었으므로, 여기서는 그냥
+// 지우기만 하면 됩니다 (소속 수업은 "기타"로 자동 이동).
+// ---------------------------------------------------------------------------
+
+export async function createWinterCampCategory(formData: FormData) {
+  const supabase = createAdminClient();
+
+  const payload = {
+    name: formData.get("name"),
+    sort_order: Number(formData.get("sort_order") ?? 0),
+  };
+
+  const { error } = await supabase
+    .from("winter_camp_categories")
+    .insert(payload);
+  if (error) throw new Error(error.message);
+  revalidatePath("/winter-camp");
+  revalidatePath("/admin/winter-camp");
+}
+
+export async function updateWinterCampCategory(formData: FormData) {
+  const supabase = createAdminClient();
+  const id = formData.get("id") as string;
+
+  const payload = {
+    name: formData.get("name"),
+    sort_order: Number(formData.get("sort_order") ?? 0),
+  };
+
+  const { error } = await supabase
+    .from("winter_camp_categories")
+    .update(payload)
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+  revalidatePath("/winter-camp");
+  revalidatePath("/admin/winter-camp");
+}
+
+export async function deleteWinterCampCategory(formData: FormData) {
+  const supabase = createAdminClient();
+  const id = formData.get("id") as string;
+
+  const { error } = await supabase
+    .from("winter_camp_categories")
+    .delete()
+    .eq("id", id);
+  if (error) throw new Error(error.message);
   revalidatePath("/winter-camp");
   revalidatePath("/admin/winter-camp");
 }

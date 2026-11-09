@@ -339,6 +339,23 @@ drop policy if exists "public read grade_stages" on grade_stages;
 create policy "public read grade_stages" on grade_stages for select using (true);
 
 -- ---------------------------------------------------------------------------
+-- winter_camp_categories: groups winter_camp_courses for display/admin
+-- entry (영어/수학/컴퓨터/바이오 등) — admin-defined, not a fixed enum, so
+-- the academy can rename or add categories season to season.
+-- ---------------------------------------------------------------------------
+create table if not exists winter_camp_categories (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table winter_camp_categories enable row level security;
+
+drop policy if exists "public read winter_camp_categories" on winter_camp_categories;
+create policy "public read winter_camp_categories" on winter_camp_categories for select using (true);
+
+-- ---------------------------------------------------------------------------
 -- winter_camp_courses: the course roster behind the "2027 겨울방학 특강"
 -- menu item (see site_settings.winter_camp_title/winter_camp_nav_visible
 -- above). Each row is one course card (course name + teacher name) on
@@ -347,15 +364,28 @@ create policy "public read grade_stages" on grade_stages for select using (true)
 -- IS an image (a flyer/syllabus photo), not written text, by design.
 -- `image_url` is nullable: a course can be added before its photo is ready,
 -- and the detail page shows a "준비 중" placeholder until one is uploaded.
+-- `category_id` groups the course under a winter_camp_categories row on
+-- both /winter-camp and the admin list; ON DELETE SET NULL means deleting
+-- a category un-groups its courses ("기타") instead of deleting them.
+-- `sessions_count`/`total_hours` are both nullable — a course can be added
+-- before those details are finalized, and the "N회 · N시간" line on the
+-- card simply doesn't render until at least one of them is filled in.
 -- ---------------------------------------------------------------------------
 create table if not exists winter_camp_courses (
   id uuid primary key default gen_random_uuid(),
+  category_id uuid references winter_camp_categories(id) on delete set null,
   course_name text not null,
   teacher_name text not null,
+  sessions_count int,
+  total_hours int,
   image_url text,
   sort_order int not null default 0,
   created_at timestamptz not null default now()
 );
+
+alter table winter_camp_courses add column if not exists category_id uuid references winter_camp_categories(id) on delete set null;
+alter table winter_camp_courses add column if not exists sessions_count int;
+alter table winter_camp_courses add column if not exists total_hours int;
 
 alter table winter_camp_courses enable row level security;
 
